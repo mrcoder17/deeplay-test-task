@@ -31,43 +31,52 @@ public class SplitArray {
     }
 
     /**
-     * Разделяет массив на K частей с последовательными суммами
+     * Разделяет данный массив на K частей таким образом, чтобы сумма элементов в i-й части была равна L + i,
+     * где L - это сумма элементов в первой части
      *
-     * @param array массив для разделения
-     * @param K количество частей
-     * @return список частей, если возможно выполнить разделение, иначе null
+     * @param array Входной массив целых чисел
+     * @param K Количество частей, на которые необходимо разделить массив
+     * @return Список из K частей, каждая часть является списком целых чисел. Если невозможно разделить массив
+     *         указанным образом, возвращается null
      */
     public static List<List<Integer>> splitArrayIntoKParts(int[] array, int K) {
-        int totalSum = Arrays.stream(array).sum();
-        int minSum = (2 * totalSum + K * (K - 1)) / (2 * K);
-
-        if ((2 * totalSum + K * (K - 1)) % (2 * K) != 0) {
+        if (K < 1 || K > array.length) {
             return null;
         }
+
+        int totalSum = Arrays.stream(array).sum();
+
+        int sumRequired = K * (K - 1) / 2;
+        if ((totalSum - sumRequired) % K != 0) {
+            return null;
+        }
+
+        int L = (totalSum - sumRequired) / K;
 
         List<List<Integer>> result = new ArrayList<>();
         for (int i = 0; i < K; i++) {
             result.add(new ArrayList<>());
         }
 
-        return backtrack(array, result, K, 0, minSum) ? result : null;
+        return backtrack(array, result, K, 0, L) ? result : null;
     }
 
     /**
-     * Поиск с возвратом для разделения массива на K частей с последовательными суммами.
+     * Рекурсивно пытается разделить массив на K частей с требуемыми суммами
      *
-     * @param array массив для разделения.
-     * @param parts список частей, которые будут заполняться.
-     * @param K количество частей.
-     * @param index текущий индекс в массиве.
-     * @param minSum минимальная сумма первой части.
-     * @return true, если удалось разделить массив, иначе false.
+     * @param array Входной массив целых чисел
+     * @param parts Список частей, который формируется
+     * @param K Количество частей, на которые необходимо разделить массив
+     * @param index Текущий индекс обрабатываемого элемента в массиве
+     * @param L Сумма первой части
+     * @return true, если массив можно разделить на K частей с требуемыми суммами, false в противном случае
      */
-    private static boolean backtrack(int[] array, List<List<Integer>> parts, int K, int index, int minSum) {
+    private static boolean backtrack(int[] array, List<List<Integer>> parts, int K, int index, int L) {
         if (index == array.length) {
             for (int i = 0; i < K; i++) {
+                int expectedSum = L + i;
                 int sum = parts.get(i).stream().mapToInt(Integer::intValue).sum();
-                if (sum != minSum + i) {
+                if (sum != expectedSum) {
                     return false;
                 }
             }
@@ -76,10 +85,10 @@ public class SplitArray {
 
         for (int i = 0; i < K; i++) {
             parts.get(i).add(array[index]);
-            if (backtrack(array, parts, K, index + 1, minSum)) {
+            if (backtrack(array, parts, K, index + 1, L)) {
                 return true;
             }
-            parts.get(i).removeLast();
+            parts.get(i).remove(parts.get(i).size() - 1);
         }
 
         return false;
