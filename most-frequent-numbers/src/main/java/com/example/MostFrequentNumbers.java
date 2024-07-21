@@ -34,7 +34,7 @@ public class MostFrequentNumbers {
      *
      * @param array массив, который будет заполнен случайными числами
      */
-    private static void fillArrayWithRandomNumbers(int[] array) {
+    public static void fillArrayWithRandomNumbers(int[] array) {
         Random random = new Random();
         for (int i = 0; i < array.length; i++) {
             array[i] = random.nextInt(21) - 10;
@@ -46,7 +46,7 @@ public class MostFrequentNumbers {
      *
      * @param array массив, который будет выведен на экран
      */
-    private static void printArray(int[] array) {
+    public static void printArray(int[] array) {
         System.out.println(Arrays.toString(array));
     }
 
@@ -56,7 +56,7 @@ public class MostFrequentNumbers {
      * @param array массив, в котором необходимо найти наиболее частое(-ые) число(-а)
      * @return список наиболее часто встречающихся чисел
      */
-    private static List<Integer> findMostFrequentNumber(int[] array) {
+    public static List<Integer> findMostFrequentNumber(int[] array) {
         Map<Integer, Integer> frequencyMap = new HashMap<>();
         int maxFrequency = 0;
 
