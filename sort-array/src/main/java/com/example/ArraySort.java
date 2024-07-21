@@ -34,7 +34,7 @@ public class ArraySort {
      * @param array список, который будет заполнен случайными числами
      * @param size количество элементов в списке
      */
-    private static void fillArrayWithRandomNumbers(List<Integer> array, int size) {
+     public static void fillArrayWithRandomNumbers(List<Integer> array, int size) {
         Random random = new Random();
         for (int i = 0; i < size; i++) {
             array.add(random.nextInt(21) - 10);
@@ -46,7 +46,7 @@ public class ArraySort {
      *
      * @param array список, который будет выведен на экран
      */
-    private static void printArray(List<Integer> array) {
+    public static void printArray(List<Integer> array) {
         System.out.println(array);
     }
 
@@ -56,7 +56,7 @@ public class ArraySort {
      *
      * @param array список, элементы которого необходимо переупорядочить
      */
-    private static void reorderArray(List<Integer> array) {
+    public static void reorderArray(List<Integer> array) {
         List<Integer> odd = new ArrayList<>();
         List<Integer> zero = new ArrayList<>();
         List<Integer> even = new ArrayList<>();
